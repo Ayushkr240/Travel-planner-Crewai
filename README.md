@@ -1,54 +1,318 @@
-# TravelAgentCrew Crew
+# AI Travel Planner using CrewAI
 
-Welcome to the TravelAgentCrew Crew project, powered by [crewAI](https://crewai.com). This template is designed to help you set up a multi-agent AI system with ease, leveraging the powerful and flexible framework provided by crewAI. Our goal is to enable your agents to collaborate effectively on complex tasks, maximizing their collective intelligence and capabilities.
+An AI-powered travel planning system built with **CrewAI** that generates a personalized **7-day travel itinerary** based on a user's travel budget.
 
-## Installation
+Instead of using a single AI model to handle every task, this project follows a **multi-agent architecture** where specialized AI agents collaborate to recommend a destination, discover attractions, suggest hotels, and generate a complete travel plan.
 
-Ensure you have Python >=3.10 <3.14 installed on your system. This project uses [UV](https://docs.astral.sh/uv/) for dependency management and package handling, offering a seamless setup and execution experience.
+---
 
-First, if you haven't already, install uv:
+## Overview
 
-```bash
-pip install uv
+Planning a trip involves several decisions, including choosing a destination, finding places to visit, selecting accommodation, and organizing a daily schedule. This project automates that entire workflow using multiple AI agents working together.
+
+Each agent is responsible for a specific task and passes its output to the next agent, creating a structured and modular planning process.
+
+---
+
+## Features
+
+* Budget-based destination recommendation
+* Tourist attraction discovery
+* Budget-friendly hotel recommendations
+* Automatic 7-day itinerary generation
+* Weather information
+* Restaurant suggestions
+* Packing recommendations
+* Budget breakdown
+* Markdown itinerary export
+* Modular multi-agent workflow
+
+---
+
+# Architecture
+
+```text
+                     User Budget
+                          │
+                          ▼
+               City Finder Agent
+                          │
+                          ▼
+              Place Finder Agent
+                          │
+                          ▼
+              Hotel Finder Agent
+                          │
+                          ▼
+                 Planner Agent
+                          │
+                          ▼
+          Complete 7-Day Travel Itinerary
 ```
 
-Next, navigate to your project directory and install the dependencies:
+---
 
-(Optional) Lock the dependencies and install them by using the CLI command:
-```bash
-crewai install
-```
-### Customizing
+# How It Works
 
-**Add your `OPENAI_API_KEY` into the `.env` file**
+### Step 1 — User Input
 
-- Modify `src/travel_agent_crew/config/agents.yaml` to define your agents
-- Modify `src/travel_agent_crew/config/tasks.yaml` to define your tasks
-- Modify `src/travel_agent_crew/crew.py` to add your own logic, tools and specific args
-- Modify `src/travel_agent_crew/main.py` to add custom inputs for your agents and tasks
+The user provides a travel budget.
 
-## Running the Project
+Example:
 
-To kickstart your crew of AI agents and begin task execution, run this from the root folder of your project:
-
-```bash
-$ crewai run
+```text
+₹20,000
 ```
 
-This command initializes the travel_agent_crew Crew, assembling the agents and assigning them tasks as defined in your configuration.
+---
 
-This example, unmodified, will run the create a `report.md` file with the output of a research on LLMs in the root folder.
+### Step 2 — City Finder Agent
 
-## Understanding Your Crew
+The City Finder Agent analyzes the available budget and identifies the most suitable destination.
 
-The travel_agent_crew Crew is composed of multiple AI agents, each with unique roles, goals, and tools. These agents collaborate on a series of tasks, defined in `config/tasks.yaml`, leveraging their collective skills to achieve complex objectives. The `config/agents.yaml` file outlines the capabilities and configurations of each agent in your crew.
+**Responsibilities**
 
-## Support
+* Recommend a destination
+* Consider affordability
+* Select a travel-friendly city
 
-For support, questions, or feedback regarding the TravelAgentCrew Crew or crewAI.
-- Visit our [documentation](https://docs.crewai.com)
-- Reach out to us through our [GitHub repository](https://github.com/joaomdmoura/crewai)
-- [Join our Discord](https://discord.com/invite/X4JWnZnxPb)
-- [Chat with our docs](https://chatg.pt/DWjSBZn)
+---
 
-Let's create wonders together with the power and simplicity of crewAI.
+### Step 3 — Place Finder Agent
+
+Once the destination is selected, the Place Finder Agent searches for popular attractions and activities.
+
+Example output:
+
+* Historical landmarks
+* Museums
+* Parks
+* Local markets
+* Cultural attractions
+
+---
+
+### Step 4 — Hotel Finder Agent
+
+This agent recommends hotels that fit within the user's budget.
+
+It focuses on:
+
+* Affordable accommodation
+* Convenient location
+* Good overall value
+
+---
+
+### Step 5 — Planner Agent
+
+The Planner Agent combines the outputs from all previous agents and creates a complete travel itinerary.
+
+The generated itinerary includes:
+
+* Day-wise travel plan
+* Places to visit
+* Hotel recommendation
+* Estimated budget
+* Weather information
+* Restaurant suggestions
+* Packing tips
+
+The final itinerary is saved as a Markdown file.
+
+---
+
+# Agents
+
+## City Finder Agent
+
+Finds the best destination according to the user's budget.
+
+---
+
+## Place Finder Agent
+
+Discovers popular attractions and activities in the selected destination.
+
+---
+
+## Hotel Finder Agent
+
+Recommends budget-friendly hotels based on the selected city.
+
+---
+
+## Planner Agent
+
+Creates the final itinerary by combining the outputs from all previous agents.
+
+---
+
+# Tech Stack
+
+* Python
+* CrewAI
+* Google Gemini Flash API
+* SerperDevTool
+
+---
+
+# Project Structure
+
+```text
+crewai-travel-planner/
+│
+├── src/
+│   └── travel_agent_crew/
+│       ├── config/
+│       │   ├── agents.yaml
+│       │   └── tasks.yaml
+│       ├── crew.py
+│       ├── main.py
+│       └── tools/
+│
+├── knowledge/
+├── output/
+├── tests/
+├── .env
+├── .gitignore
+├── pyproject.toml
+├── uv.lock
+└── README.md
+```
+
+---
+
+# Installation
+
+Clone the repository.
+
+```bash
+git clone https://github.com/<your-username>/crewai-travel-planner.git
+```
+
+Move into the project directory.
+
+```bash
+cd crewai-travel-planner
+```
+
+Create a virtual environment.
+
+```bash
+python -m venv .venv
+```
+
+Activate the environment.
+
+### Windows
+
+```bash
+.venv\Scripts\activate
+```
+
+### Linux / macOS
+
+```bash
+source .venv/bin/activate
+```
+
+Install the required dependencies.
+
+```bash
+pip install -r requirements.txt
+```
+
+or, if using **uv**:
+
+```bash
+uv sync
+```
+
+---
+
+# Environment Variables
+
+Create a `.env` file in the project root.
+
+```env
+GEMINI_API_KEY=your_gemini_api_key
+SERPER_API_KEY=your_serper_api_key
+```
+
+---
+
+# Running the Project
+
+```bash
+crewai run
+```
+
+or
+
+```bash
+python src/travel_agent_crew/main.py
+```
+
+(depending on your CrewAI project setup)
+
+---
+
+# Example Workflow
+
+```text
+User Budget
+      │
+      ▼
+Destination Selected
+      │
+      ▼
+Tourist Attractions Found
+      │
+      ▼
+Hotels Recommended
+      │
+      ▼
+7-Day Travel Itinerary Generated
+```
+
+---
+
+# Future Improvements
+
+* Flight recommendations
+* Train and bus suggestions
+* Multiple destination support
+* Google Maps integration
+* Interactive web interface
+* Real-time weather updates
+* Expense optimization
+* Personalized travel preferences
+* PDF itinerary export
+* Calendar integration
+
+---
+
+# What I Learned
+
+This project helped me gain practical experience with:
+
+* Multi-agent AI systems
+* CrewAI orchestration
+* Sequential task execution
+* Prompt engineering
+* Tool integration
+* Modular AI application design
+* LLM-powered automation
+
+---
+
+# Contributing
+
+Contributions, ideas, and improvements are always welcome. Feel free to fork the repository, open an issue, or submit a pull request.
+
+---
+
+# License
+
+This project is licensed under the MIT License.
