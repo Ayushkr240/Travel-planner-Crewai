@@ -1,0 +1,139 @@
+best_city_task:
+  description: >
+    The user has a travel budget of ₹{budget} for a 7-day trip.
+
+    Analyze multiple cities and select the single best city that fits
+    within the user's budget.
+
+    Consider the following factors:
+      - Overall affordability
+      - Current weather conditions
+      - Seasonal events or festivals
+      - Tourist popularity
+      - Safety
+      - Accessibility
+      - Overall travel experience
+
+    Explain why this city is the best choice compared to other possible
+    destinations.
+
+  expected_output: >
+    A travel recommendation containing:
+
+    - Recommended city
+    - Why this city was selected
+    - Current weather
+    - Seasonal events (if any)
+    - Estimated travel cost
+    - Estimated stay cost
+    - Estimated food cost
+    - Estimated local transportation cost
+
+  agent: city_finder
+
+best_place_task:
+  description: >
+    Search the web once for the top tourist attractions in the selected city.
+
+    From the search results, identify the best 12–15 attractions including:
+    - Nature
+    - Adventure
+    - Historical
+    - Cultural
+    - Shopping
+    - Food
+
+  expected_output: >
+    A well-organized list containing:
+
+    - Place name
+    - Short description
+    - Why it is worth visiting
+    - Approximate visiting duration
+    - Entry fee (if applicable)
+
+  agent: place_finder
+
+  context:
+    - best_city_task
+
+best_hotel_task:
+  description: >
+    Based on the selected city and the available travel budget,
+    recommend the best hotels for a 7-day stay.
+
+    Consider:
+
+      - Affordability
+      - Safety
+      - Cleanliness
+      - Ratings
+      - Public transport connectivity
+      - Distance from major tourist attractions
+      - Overall value for money
+
+    Recommend 5 hotel options ranked from best to least preferred.
+
+  expected_output: >
+    A ranked hotel list including:
+
+    - Hotel name
+    - Approximate price per night
+    - Location
+    - Nearby attractions
+    - Nearby transport options
+    - Pros and cons
+    - Overall recommendation
+
+  agent: hotel_finder
+
+  context:
+    - best_city_task
+    - best_place_task
+
+  output_file: output/Hotels.md
+
+plan_task:
+  description: >
+    Create a complete 7-day travel itinerary using the selected city,
+    recommended places, and hotel recommendations.
+
+    Organize each day logically to minimize travel time.
+
+    Include the following:
+
+      - Day-wise schedule
+      - Morning, afternoon and evening activities
+      - Places to visit
+      - Recommended restaurants
+      - Weather forecast
+      - Transportation suggestions
+      - Packing suggestions
+      - Daily estimated expenses
+      - Final budget breakdown
+      - Useful travel tips
+
+    The final itinerary should be written in a clean Markdown format
+    and saved to the file "itinerary.md".
+
+  expected_output: >
+    A complete professional travel guide in Markdown containing:
+
+    - Trip Overview
+    - Selected City
+    - Hotel Recommendation
+    - 7-Day Detailed Itinerary
+    - Restaurant Recommendations
+    - Weather Information
+    - Packing Checklist
+    - Budget Breakdown
+    - Travel Tips
+
+  agent: planner
+
+  context:
+    - best_city_task
+    - best_place_task
+    - best_hotel_task
+
+  output_file: output/Itinerary.md
